@@ -1,8 +1,10 @@
+from controller.errors.error_handler import error_handler
+
 class VariableObj:
     def __init__(self, variable: dict) -> None:
         self.variable = variable
         if not(self.check_type_and_value(self.variable['type'], self.variable['value'])):
-            raise f"{self.get_type()} is not compatible with {self.get_value()}"
+            error_handler(f"{self.get_type()} is not compatible with {self.get_value()}")
 
     def __repr__(self) -> str:
         return f"{self.get_copy_of_variable()!r}"
@@ -50,7 +52,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.add(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __add__ failed"
+        error_handler("Operation __add__ failed")
             
     def add(self, return_type: str, v1: str, v2: str) -> str:
         match return_type:
@@ -70,7 +72,7 @@ class VariableObj:
                 temp_variable = self.get_variable()
                 temp_variable['value'] = self.add(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __radd__ failed"
+        error_handler("Operation __radd__ failed")
             
     def __iadd__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -81,7 +83,7 @@ class VariableObj:
             if self.check_type_and_value(self.get_type(), variable_obj):
                 self.put_value(self.add(self.get_type(), self.get_value(), variable_obj))
                 return self
-        raise "Operation __iadd__ failed"
+        error_handler("Operation __iadd__ failed")
     
     def __sub__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -94,7 +96,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.sub(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __sub__ failed"
+        error_handler("Operation __sub__ failed")
     
     def sub(self, return_type, v1, v2):
         match return_type:
@@ -114,7 +116,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.sub(self.get_type(), self.get_value(), variable_obj)
                 return temp_variable
-        raise "Operation __rsub__ failed"
+        error_handler("Operation __rsub__ failed")
     
     def __isub__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -125,7 +127,7 @@ class VariableObj:
             if self.check_type_and_value(self.get_type(), variable_obj):
                 self.put_value(self.sub(self.get_type(), self.get_value(), variable_obj))
                 return self
-        raise "Operation __isub__ failed"
+        error_handler("Operation __isub__ failed")
 
     def __mul__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -138,7 +140,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.mul(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __mul__ failed"
+        error_handler("Operation __mul__ failed")
     
     def mul(self, return_type: str, v1: str, v2: str) -> str:
         match return_type:
@@ -158,7 +160,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.mul(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __rmul__ failed"
+        error_handler("Operation __rmul__ failed")
     
     def __imul__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -169,7 +171,7 @@ class VariableObj:
             if self.check_type_and_value(self.get_type(), variable_obj):
                 self.put_type(self.mul(self.get_type(), self.get_value(), variable_obj))
                 return self
-        raise "Operation __imul__ failed"
+        error_handler("Operation __imul__ failed")
     
     def __truediv__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -182,15 +184,15 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.div(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __truediv__ failed"
+        error_handler("Operation __truediv__ failed")
             
     def div(self, return_type: str, v1: str, v2: str) -> str:
         match return_type:
             case "string":
-                raise f"Invalid operation div {return_type}"
+                error_handler(f"Invalid operation div {return_type}")
             case "float":
                 if v2 == "0":
-                    raise "Invalid div operatio: Zero division"
+                    error_handler("Invalid div operation: Zero division")
                 return str(float(v1) / float(v2))
             
     def __rtruediv__(self, variable_obj):
@@ -204,7 +206,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.div(self.get_type(), variable_obj, self.get_value())
                 return VariableObj(temp_variable)
-        raise "Operation __rtruediv__ failed"
+        error_handler("Operation __rtruediv__ failed")
     
     def __itruediv__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -215,7 +217,7 @@ class VariableObj:
             if self.check_type_and_value(self.get_type(), variable_obj):
                 self.put_value(self.div(self.get_type(), self.get_value(), variable_obj))
                 return self
-        raise "Operation __itruediv__ failed"
+        error_handler("Operation __itruediv__ failed")
 
     def __pow__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -228,7 +230,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.pow(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __pow__ failed"
+        error_handler("Operation __pow__ failed")
     
     def __rpow__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -241,12 +243,12 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.pow(self.get_type(), variable_obj, self.get_value())
                 return VariableObj(temp_variable)
-        raise "Operation __rpow__ failed"
+        error_handler("Operation __rpow__ failed")
     
     def pow(self, return_type: str, v1: str, v2: str) -> str:
         match return_type:
             case "string":
-                raise f"Invalid operation pow {return_type}"
+                error_handler(f"Invalid operation pow {return_type}")
             case "float":
                 return str(pow(float(v1), float(v2)))
             
@@ -261,15 +263,15 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.floordiv(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __floordiv__ failed"
+        error_handler("Operation __floordiv__ failed")
     
     def floordiv(self, return_type: str, v1: str, v2: str) -> str:
         match return_type:
             case "string":
-                raise f"Invalid operation floordiv {return_type}"
+                error_handler(f"Invalid operation floordiv {return_type}")
             case "float":
                 if v2 == "0":
-                    raise f"Invalid floordiv operation: Zero division"
+                    error_handler(f"Invalid floordiv operation: Zero division")
                 return str(float(v1) // float(v2))
             
     def __rfloordiv__(self, variable_obj):
@@ -283,7 +285,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.floordiv(self.get_type(), variable_obj, self.get_value())
                 return VariableObj(temp_variable)
-        raise "Operation __rfloordiv__ failed"
+        error_handler("Operation __rfloordiv__ failed")
             
     def __ifloordiv__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -294,7 +296,7 @@ class VariableObj:
             if self.check_type_and_value(self.get_type(), variable_obj):
                 self.put_type(self.floordiv(self.get_type(), self.get_value(), variable_obj))
                 return self
-        raise "Operation __ifloordiv__ failed"
+        error_handler("Operation __ifloordiv__ failed")
     
     def __mod__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -307,15 +309,15 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.mod(self.get_type(), self.get_value(), variable_obj)
                 return VariableObj(temp_variable)
-        raise "Operation __mod__ failed"
+        error_handler("Operation __mod__ failed")
     
     def mod(self, return_type: str, v1: str, v2: str) -> str:
         match return_type:
             case "string":
-                raise f"Invalid mod operation {return_type}"
+                 error_handler(f"Invalid mod operation {return_type}")
             case "float":
                 if v2 == "0":
-                    raise "Invalid mod operation: Zero division"
+                    error_handler("Invalid mod operation: Zero division")
                 return str(float(v1) % float(v2))
             
     def __rmod__(self, variable_obj):
@@ -329,7 +331,7 @@ class VariableObj:
                 temp_variable = self.get_copy_of_variable()
                 temp_variable['value'] = self.mod(self.get_type(), variable_obj, self.get_value())
                 return VariableObj(temp_variable)
-        raise "Operation __rmod__ failed"
+        error_handler("Operation __rmod__ failed")
     
     def __imod__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -340,7 +342,7 @@ class VariableObj:
             if self.check_type_and_value(self.get_type(), variable_obj):
                 self.put_value(self.mod(self.get_type(), self.get_value(), variable_obj))
                 return self
-        raise "Operation __imod__ failed"
+        error_handler("Operation __imod__ failed")
     
     def __eq__(self, variable_obj):
         if isinstance(variable_obj, VariableObj):
@@ -381,4 +383,4 @@ class VariableObj:
                 }
                 return VariableObj(temp_variable)
             case "float":
-                raise "float type doesn't have lenght"
+                error_handler("float type doesn't have lenght")
