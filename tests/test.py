@@ -1,11 +1,5 @@
-from src.objects.variable import  VariableObj
+import unittest
 
-v1 = VariableObj({
-    "type": "float",
-    "value": "10"
-})
-
-v2 = VariableObj({
-    "type": "float",
-    "value": "20"
-})
+class Test(unittest.TestCase):
+    def __init__(self):
+        pass
