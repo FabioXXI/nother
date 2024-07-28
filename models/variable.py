@@ -8,6 +8,4 @@ class Variable(Base):
     name = Column(String, unique=True)
     type = Column(String)
     value = Column(String)
-    point_to = Column(String, ForeignKey('variables.id'), nullable=True)
-    group = Column(String, ForeignKey('groups.id'), nullable=True)
     team_id = Column(String, ForeignKey('teams.id'))
