@@ -8,4 +8,6 @@ class Team(Base):
 
     id = mapped_column(String, primary_key=True)
     name = mapped_column(String)
+    data_access_token = mapped_column(String, unique=True)
+    access_id = mapped_column(String, unique=True)
     variables = relationship('Variable', cascade='all, delete-orphan')

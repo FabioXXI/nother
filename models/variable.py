@@ -9,4 +9,4 @@ class Variable(Base):
     name = mapped_column(String, unique=True)
     type = mapped_column(String)
     value = mapped_column(String)
-    team_id = mapped_column(String, ForeignKey('teams.id'))
+    team_access_id = mapped_column(String, ForeignKey('teams.access_id'))
