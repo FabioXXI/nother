@@ -44,11 +44,12 @@ def too_early(message: str | Exception = None):
 
 def precondition_required(message: str | Exception = None):
     return HTTPException(status_code=status.HTTP_428_PRECONDITION_REQUIRED, detail=message)
+    
 def too_many_requests(message: str | Exception = None):
     return HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail=message)
 
 def internal_server_error(message: str | Exception = None):
-    return HTTPException(status_code=status.WS_1011_INTERNAL_ERROR, detail=message)
+    return HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=message)
 
 def not_implemented(message: str | Exception = None):
     return HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail=message)
